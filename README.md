@@ -2,6 +2,10 @@
 
 A complete, robust backend API for a Job Portal application. It supports dual user roles (Job Seekers and Recruiters), job postings, resume uploads, and an end-to-end application lifecycle management system.
 
+## Live Demo
+- **Backend API URL**: `https://job-application-portal-backend-qr2t.onrender.com`
+- **Database**: Hosted on MongoDB Atlas
+
 ## Tech Stack
 
 | Technology | Description |
@@ -9,7 +13,8 @@ A complete, robust backend API for a Job Portal application. It supports dual us
 | **Node.js** | JavaScript runtime |
 | **Express 5** | Web framework (native async error handling) |
 | **TypeScript** | Strongly typed language |
-| **MongoDB / Mongoose 9** | NoSQL database and ODM |
+| **MongoDB Atlas** | Cloud NoSQL database |
+| **Mongoose 9** | Object Data Modeling (ODM) |
 | **Zod** | Schema validation |
 | **JWT** | Authentication (Access & Refresh tokens) |
 | **Bcrypt.js** | Password hashing |
@@ -100,14 +105,14 @@ For this implementation, **Resumes are stored on the local disk** (`/uploads/res
 |---|---|---|---|---|
 | GET | `/api/job-seekers/me` | Job Seeker | None | `200` + complete seeker profile |
 | PUT | `/api/job-seekers/me` | Job Seeker | `{ "firstName": "..." }` | `200` + updated profile |
-| POST | `/api/job-seekers/me/education` | Job Seeker | `{ "universityName": "..." }` | `201` + updated profile |
-| PUT | `/api/job-seekers/me/education/:id` | Job Seeker | `{ "endYear": 2024 }` | `200` + updated profile |
+| POST | `/api/job-seekers/me/education` | Job Seeker | `{ "universityName": "...", "courseName": "..." }` | `201` + updated profile |
+| PUT | `/api/job-seekers/me/education/:id` | Job Seeker | `{ "universityName": "...", "courseName": "...", "endYear": 2024 }` | `200` + updated profile |
 | DELETE | `/api/job-seekers/me/education/:id` | Job Seeker | None | `200` + updated profile |
 | POST | `/api/job-seekers/me/experience` | Job Seeker | `{ "companyName": "..." }` | `201` + updated profile |
-| PUT | `/api/job-seekers/me/experience/:id` | Job Seeker | `{ "field": "..." }` | `200` + updated profile |
+| PUT | `/api/job-seekers/me/experience/:id` | Job Seeker | `{ "companyName": "...", "field": "..." }` | `200` + updated profile |
 | DELETE | `/api/job-seekers/me/experience/:id` | Job Seeker | None | `200` + updated profile |
 | POST | `/api/job-seekers/me/projects` | Job Seeker | `{ "title": "..." }` | `201` + updated profile |
-| PUT | `/api/job-seekers/me/projects/:id` | Job Seeker | `{ "techStack": [] }` | `200` + updated profile |
+| PUT | `/api/job-seekers/me/projects/:id` | Job Seeker | `{ "title": "...", "techStack": [] }` | `200` + updated profile |
 | DELETE | `/api/job-seekers/me/projects/:id` | Job Seeker | None | `200` + updated profile |
 
 ### Recruiter Module
@@ -131,7 +136,7 @@ For this implementation, **Resumes are stored on the local disk** (`/uploads/res
 |---|---|---|---|---|
 | GET | `/api/jobs` | No | None (query params available) | `200` + paginated jobs array |
 | GET | `/api/jobs/:id` | No | None | `200` + job object |
-| POST | `/api/jobs` | Recruiter | `{ "title": "...", "jobType": "full_time" }` | `201` + job object |
+| POST | `/api/jobs` | Recruiter | `{ "title": "...", "description": "...", "jobType": "full_time", "workMode": "remote" }` | `201` + job object |
 | PUT | `/api/jobs/:id` | Recruiter | `{ "status": "closed" }` | `200` + job object |
 | DELETE | `/api/jobs/:id` | Recruiter | None | `200` Success |
 | GET | `/api/jobs/recruiter/mine` | Recruiter | None | `200` + array of jobs |
@@ -164,7 +169,7 @@ A complete Postman collection is included in the project root: `Job-Portal-Porta
 1. Open Postman.
 2. Click **Import** and select the JSON file.
 3. The collection uses two variables:
-   - `baseUrl` (default: `http://localhost:5000/api`)
+   - `baseUrl` (default: `https://job-application-portal-backend-qr2t.onrender.com/api` or `http://localhost:5000/api`)
    - `accessToken` (set this after logging in via the Auth -> Login endpoint to access protected routes).
 
 ---
