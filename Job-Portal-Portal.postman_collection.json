@@ -1,0 +1,678 @@
+{
+  "info": {
+    "name": "Job Portal API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "Auth",
+      "item": [
+        {
+          "name": "Register",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"email\": \"seeker@example.com\",\n  \"password\": \"Password@123\",\n  \"role\": \"job_seeker\",\n  \"contactNumber\": \"0987654321\"\n}",
+              "options": { "raw": { "language": "json" } }
+            },
+            "url": {
+              "raw": "{{baseUrl}}/auth/register",
+              "host": ["{{baseUrl}}"],
+              "path": ["auth", "register"]
+            },
+            "description": "Public route. Role must be 'job_seeker' or 'recruiter'."
+          }
+        },
+        {
+          "name": "Login",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"email\": \"seeker@example.com\",\n  \"password\": \"Password@123\"\n}",
+              "options": { "raw": { "language": "json" } }
+            },
+            "url": {
+              "raw": "{{baseUrl}}/auth/login",
+              "host": ["{{baseUrl}}"],
+              "path": ["auth", "login"]
+            },
+            "description": "Public route. Returns accessToken and sets refreshToken in cookie."
+          }
+        },
+        {
+          "name": "Refresh Token",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/auth/refresh-token",
+              "host": ["{{baseUrl}}"],
+              "path": ["auth", "refresh-token"]
+            },
+            "description": "Public route. Uses refreshToken cookie."
+          }
+        },
+        {
+          "name": "Logout",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{accessToken}}" }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/auth/logout",
+              "host": ["{{baseUrl}}"],
+              "path": ["auth", "logout"]
+            },
+            "description": "Authenticated route. Clears refresh token cookie."
+          }
+        }
+      ]
+    },
+    {
+      "name": "Job Seeker",
+      "item": [
+        {
+          "name": "Get My Profile",
+          "request": {
+            "method": "GET",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{accessToken}}" }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/job-seekers/me",
+              "host": ["{{baseUrl}}"],
+              "path": ["job-seekers", "me"]
+            },
+            "description": "Requires 'job_seeker' role."
+          }
+        },
+        {
+          "name": "Update My Profile",
+          "request": {
+            "method": "PUT",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{accessToken}}" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"firstName\": \"Jane\",\n  \"lastName\": \"Smith\",\n  \"address\": \"123 Tech Lane, San Francisco\"\n}",
+              "options": { "raw": { "language": "json" } }
+            },
+            "url": {
+              "raw": "{{baseUrl}}/job-seekers/me",
+              "host": ["{{baseUrl}}"],
+              "path": ["job-seekers", "me"]
+            }
+          }
+        },
+        {
+          "name": "Add Education",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{accessToken}}" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"universityName\": \"Tech University\",\n  \"courseName\": \"B.S. Computer Science\",\n  \"startYear\": 2018,\n  \"endYear\": 2022,\n  \"percentage\": 85\n}",
+              "options": { "raw": { "language": "json" } }
+            },
+            "url": {
+              "raw": "{{baseUrl}}/job-seekers/me/education",
+              "host": ["{{baseUrl}}"],
+              "path": ["job-seekers", "me", "education"]
+            }
+          }
+        },
+        {
+          "name": "Update Education",
+          "request": {
+            "method": "PUT",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{accessToken}}" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"universityName\": \"Tech University\",\n  \"courseName\": \"M.S. Computer Science\",\n  \"startYear\": 2022,\n  \"endYear\": 2024\n}",
+              "options": { "raw": { "language": "json" } }
+            },
+            "url": {
+              "raw": "{{baseUrl}}/job-seekers/me/education/:eduId",
+              "host": ["{{baseUrl}}"],
+              "path": ["job-seekers", "me", "education", ":eduId"],
+              "variable": [{ "key": "eduId", "value": "" }]
+            }
+          }
+        },
+        {
+          "name": "Delete Education",
+          "request": {
+            "method": "DELETE",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{accessToken}}" }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/job-seekers/me/education/:eduId",
+              "host": ["{{baseUrl}}"],
+              "path": ["job-seekers", "me", "education", ":eduId"],
+              "variable": [{ "key": "eduId", "value": "" }]
+            }
+          }
+        },
+        {
+          "name": "Add Experience",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{accessToken}}" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"companyName\": \"Global Innovations\",\n  \"field\": \"Software Engineering\",\n  \"description\": \"Worked on internal tools using React and Node.js.\"\n}",
+              "options": { "raw": { "language": "json" } }
+            },
+            "url": {
+              "raw": "{{baseUrl}}/job-seekers/me/experience",
+              "host": ["{{baseUrl}}"],
+              "path": ["job-seekers", "me", "experience"]
+            }
+          }
+        },
+        {
+          "name": "Update Experience",
+          "request": {
+            "method": "PUT",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{accessToken}}" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"companyName\": \"Global Innovations Ltd\",\n  \"field\": \"Senior Software Engineer\",\n  \"description\": \"Led a team of 4 engineers.\"\n}",
+              "options": { "raw": { "language": "json" } }
+            },
+            "url": {
+              "raw": "{{baseUrl}}/job-seekers/me/experience/:expId",
+              "host": ["{{baseUrl}}"],
+              "path": ["job-seekers", "me", "experience", ":expId"],
+              "variable": [{ "key": "expId", "value": "" }]
+            }
+          }
+        },
+        {
+          "name": "Delete Experience",
+          "request": {
+            "method": "DELETE",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{accessToken}}" }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/job-seekers/me/experience/:expId",
+              "host": ["{{baseUrl}}"],
+              "path": ["job-seekers", "me", "experience", ":expId"],
+              "variable": [{ "key": "expId", "value": "" }]
+            }
+          }
+        },
+        {
+          "name": "Add Project",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{accessToken}}" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"title\": \"E-commerce Platform\",\n  \"description\": \"A full-stack e-commerce solution.\",\n  \"techStack\": [\"React\", \"Node.js\", \"MongoDB\"],\n  \"link\": \"https://github.com/example/project\"\n}",
+              "options": { "raw": { "language": "json" } }
+            },
+            "url": {
+              "raw": "{{baseUrl}}/job-seekers/me/projects",
+              "host": ["{{baseUrl}}"],
+              "path": ["job-seekers", "me", "projects"]
+            }
+          }
+        },
+        {
+          "name": "Update Project",
+          "request": {
+            "method": "PUT",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{accessToken}}" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"title\": \"E-commerce Platform (V2)\",\n  \"description\": \"Updated with Next.js and Tailwind CSS.\",\n  \"techStack\": [\"Next.js\", \"Tailwind CSS\", \"PostgreSQL\"]\n}",
+              "options": { "raw": { "language": "json" } }
+            },
+            "url": {
+              "raw": "{{baseUrl}}/job-seekers/me/projects/:projectId",
+              "host": ["{{baseUrl}}"],
+              "path": ["job-seekers", "me", "projects", ":projectId"],
+              "variable": [{ "key": "projectId", "value": "" }]
+            }
+          }
+        },
+        {
+          "name": "Delete Project",
+          "request": {
+            "method": "DELETE",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{accessToken}}" }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/job-seekers/me/projects/:projectId",
+              "host": ["{{baseUrl}}"],
+              "path": ["job-seekers", "me", "projects", ":projectId"],
+              "variable": [{ "key": "projectId", "value": "" }]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Recruiter",
+      "item": [
+        {
+          "name": "Get My Profile",
+          "request": {
+            "method": "GET",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{accessToken}}" }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/recruiters/me",
+              "host": ["{{baseUrl}}"],
+              "path": ["recruiters", "me"]
+            },
+            "description": "Requires 'recruiter' role."
+          }
+        },
+        {
+          "name": "Update My Profile",
+          "request": {
+            "method": "PUT",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{accessToken}}" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"designation\": \"Director of Talent Acquisition\"\n}",
+              "options": { "raw": { "language": "json" } }
+            },
+            "url": {
+              "raw": "{{baseUrl}}/recruiters/me",
+              "host": ["{{baseUrl}}"],
+              "path": ["recruiters", "me"]
+            }
+          }
+        },
+        {
+          "name": "Update My Company",
+          "request": {
+            "method": "PUT",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{accessToken}}" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"Acme Corp\",\n  \"industry\": \"Manufacturing\",\n  \"companySize\": \"500-1000\",\n  \"website\": \"https://acmecorp.example.com\"\n}",
+              "options": { "raw": { "language": "json" } }
+            },
+            "url": {
+              "raw": "{{baseUrl}}/recruiters/me/company",
+              "host": ["{{baseUrl}}"],
+              "path": ["recruiters", "me", "company"]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Tag",
+      "item": [
+        {
+          "name": "Get Tags",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/tags?appliesOn=skill",
+              "host": ["{{baseUrl}}"],
+              "path": ["tags"],
+              "query": [
+                { "key": "appliesOn", "value": "skill", "description": "Optional: 'job' or 'skill'" }
+              ]
+            },
+            "description": "Public route. Get all tags, optionally filtered by appliesOn."
+          }
+        },
+        {
+          "name": "Create Tag",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{accessToken}}" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"title\": \"Python\",\n  \"appliesOn\": \"skill\"\n}",
+              "options": { "raw": { "language": "json" } }
+            },
+            "url": {
+              "raw": "{{baseUrl}}/tags",
+              "host": ["{{baseUrl}}"],
+              "path": ["tags"]
+            },
+            "description": "Requires 'recruiter' role."
+          }
+        }
+      ]
+    },
+    {
+      "name": "Job",
+      "item": [
+        {
+          "name": "Get Jobs (Search)",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/jobs?search=Developer&jobType=full_time&workMode=remote&page=1&limit=10",
+              "host": ["{{baseUrl}}"],
+              "path": ["jobs"],
+              "query": [
+                { "key": "search", "value": "Developer" },
+                { "key": "jobType", "value": "full_time" },
+                { "key": "workMode", "value": "remote" },
+                { "key": "page", "value": "1" },
+                { "key": "limit", "value": "10" }
+              ]
+            },
+            "description": "Public route. Search open jobs."
+          }
+        },
+        {
+          "name": "Get Job By ID",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/jobs/:id",
+              "host": ["{{baseUrl}}"],
+              "path": ["jobs", ":id"],
+              "variable": [{ "key": "id", "value": "" }]
+            },
+            "description": "Public route."
+          }
+        },
+        {
+          "name": "Create Job",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{accessToken}}" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"title\": \"Backend Software Engineer\",\n  \"description\": \"Develop scalable backend services.\",\n  \"jobType\": \"full_time\",\n  \"workMode\": \"remote\",\n  \"location\": {\n    \"city\": \"Denver\",\n    \"state\": \"CO\",\n    \"country\": \"USA\",\n    \"isRemote\": true\n  },\n  \"totalExperience\": { \"min\": 2, \"max\": 5 },\n  \"tags\": [],\n  \"openPositions\": 3,\n  \"status\": \"open\"\n}",
+              "options": { "raw": { "language": "json" } }
+            },
+            "url": {
+              "raw": "{{baseUrl}}/jobs",
+              "host": ["{{baseUrl}}"],
+              "path": ["jobs"]
+            },
+            "description": "Requires 'recruiter' role."
+          }
+        },
+        {
+          "name": "Update Job",
+          "request": {
+            "method": "PUT",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{accessToken}}" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"status\": \"closed\"\n}",
+              "options": { "raw": { "language": "json" } }
+            },
+            "url": {
+              "raw": "{{baseUrl}}/jobs/:id",
+              "host": ["{{baseUrl}}"],
+              "path": ["jobs", ":id"],
+              "variable": [{ "key": "id", "value": "" }]
+            },
+            "description": "Requires 'recruiter' role."
+          }
+        },
+        {
+          "name": "Delete Job",
+          "request": {
+            "method": "DELETE",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{accessToken}}" }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/jobs/:id",
+              "host": ["{{baseUrl}}"],
+              "path": ["jobs", ":id"],
+              "variable": [{ "key": "id", "value": "" }]
+            },
+            "description": "Requires 'recruiter' role."
+          }
+        },
+        {
+          "name": "Get My Posted Jobs",
+          "request": {
+            "method": "GET",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{accessToken}}" }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/jobs/recruiter/mine",
+              "host": ["{{baseUrl}}"],
+              "path": ["jobs", "recruiter", "mine"]
+            },
+            "description": "Requires 'recruiter' role."
+          }
+        }
+      ]
+    },
+    {
+      "name": "Resume",
+      "item": [
+        {
+          "name": "Upload Resume",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{accessToken}}" }
+            ],
+            "body": {
+              "mode": "formdata",
+              "formdata": [
+                {
+                  "key": "resume",
+                  "type": "file",
+                  "src": []
+                }
+              ]
+            },
+            "url": {
+              "raw": "{{baseUrl}}/resumes",
+              "host": ["{{baseUrl}}"],
+              "path": ["resumes"]
+            },
+            "description": "Requires 'job_seeker' role. Accepts PDF, DOC, DOCX up to 5MB."
+          }
+        },
+        {
+          "name": "Get My Resumes",
+          "request": {
+            "method": "GET",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{accessToken}}" }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/resumes",
+              "host": ["{{baseUrl}}"],
+              "path": ["resumes"]
+            },
+            "description": "Requires 'job_seeker' role."
+          }
+        },
+        {
+          "name": "Set Default Resume",
+          "request": {
+            "method": "PATCH",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{accessToken}}" }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/resumes/:id/default",
+              "host": ["{{baseUrl}}"],
+              "path": ["resumes", ":id", "default"],
+              "variable": [{ "key": "id", "value": "" }]
+            },
+            "description": "Requires 'job_seeker' role."
+          }
+        },
+        {
+          "name": "Delete Resume",
+          "request": {
+            "method": "DELETE",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{accessToken}}" }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/resumes/:id",
+              "host": ["{{baseUrl}}"],
+              "path": ["resumes", ":id"],
+              "variable": [{ "key": "id", "value": "" }]
+            },
+            "description": "Requires 'job_seeker' role."
+          }
+        }
+      ]
+    },
+    {
+      "name": "Application",
+      "item": [
+        {
+          "name": "Apply for Job",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{accessToken}}" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"jobId\": \"<Job_ObjectId>\",\n  \"resumeId\": \"<Resume_ObjectId>\",\n  \"coverLetter\": \"I am very interested in this role.\"\n}",
+              "options": { "raw": { "language": "json" } }
+            },
+            "url": {
+              "raw": "{{baseUrl}}/applications",
+              "host": ["{{baseUrl}}"],
+              "path": ["applications"]
+            },
+            "description": "Requires 'job_seeker' role."
+          }
+        },
+        {
+          "name": "Get My Applications",
+          "request": {
+            "method": "GET",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{accessToken}}" }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/applications/me?page=1&limit=10",
+              "host": ["{{baseUrl}}"],
+              "path": ["applications", "me"],
+              "query": [
+                { "key": "page", "value": "1" },
+                { "key": "limit", "value": "10" }
+              ]
+            },
+            "description": "Requires 'job_seeker' role."
+          }
+        },
+        {
+          "name": "Get Applications for Job",
+          "request": {
+            "method": "GET",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{accessToken}}" }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/applications/job/:jobId?page=1&limit=10",
+              "host": ["{{baseUrl}}"],
+              "path": ["applications", "job", ":jobId"],
+              "variable": [{ "key": "jobId", "value": "" }],
+              "query": [
+                { "key": "page", "value": "1" },
+                { "key": "limit", "value": "10" }
+              ]
+            },
+            "description": "Requires 'recruiter' role. Must be the recruiter who posted the job."
+          }
+        },
+        {
+          "name": "Update Application Status",
+          "request": {
+            "method": "PATCH",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{accessToken}}" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"status\": \"shortlisted\"\n}",
+              "options": { "raw": { "language": "json" } }
+            },
+            "url": {
+              "raw": "{{baseUrl}}/applications/:id/status",
+              "host": ["{{baseUrl}}"],
+              "path": ["applications", ":id", "status"],
+              "variable": [{ "key": "id", "value": "" }]
+            },
+            "description": "Requires 'recruiter' role. Valid statuses: applied, under_review, shortlisted, rejected, hired, withdrawn."
+          }
+        },
+        {
+          "name": "Withdraw Application",
+          "request": {
+            "method": "PATCH",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{accessToken}}" }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/applications/:id/withdraw",
+              "host": ["{{baseUrl}}"],
+              "path": ["applications", ":id", "withdraw"],
+              "variable": [{ "key": "id", "value": "" }]
+            },
+            "description": "Requires 'job_seeker' role. Only works if status is applied or under_review."
+          }
+        }
+      ]
+    }
+  ],
+  "variable": [
+    {
+      "key": "baseUrl",
+      "value": "http://localhost:5000/api",
+      "type": "string"
+    },
+    {
+      "key": "accessToken",
+      "value": "",
+      "type": "string"
+    }
+  ]
+}

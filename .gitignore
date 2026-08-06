@@ -1,0 +1,17 @@
+# Dependencies
+node_modules/
+
+# Build output
+dist/
+
+# Environment variables
+.env
+
+# Uploaded files — local disk storage (ephemeral on Render free/standard tier)
+# Track the directory structure via .gitkeep but ignore actual uploaded files
+uploads/resumes/*
+!uploads/resumes/.gitkeep
+
+# Logs
+*.log
+npm-debug.log*
